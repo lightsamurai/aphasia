@@ -70,7 +70,7 @@ def main():
 
     # Now that we know which target words can be used
     # for the evaluation of our correlation coefficient
-    # we need to construct the variables' rankings.
+    # we need to construct the variables' rankings
     xrank = rank([i[1] for i in correlation], False)
     yrank = rank([i[2] for i in correlation], True)
 
