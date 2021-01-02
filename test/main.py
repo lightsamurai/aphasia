@@ -1,5 +1,6 @@
 import gensim.downloader as api
 import math
+# import matplotlib.pyplot as plt
 
 NOW_PROCESSING = "Now processing ({0}, {1})"
 FOUND_MATCH = "Found a match in MEN database for ({0}, {1})!"
@@ -7,10 +8,10 @@ MEN_DISTANCE = "Distance from word2vec and MEN: {0}"
 DONE = "Final score: {0}"
 
 FOUND_CORRELATION = "Target word ({0}) has a difficulty rating!"
-CORRELATION = "Spearman correlation for this dataset is: {0}"
+CORRELATION = "The Spearman correlation for this dataset is: {0}"
 
 def main():
-    # Load our models.
+    # Load our models
     wv = api.load("word2vec-google-news-300")
     men = tupleize("data/men.csv")
 
@@ -54,47 +55,74 @@ def main():
 
             # Now working on our correlation coefficient
             #
-            # First, we need to calculate rankings for the scores.
-            # Of course this can only be done for words that have BOTH
-            # a difficulty score AND a match score (which will naturally
-            # depend on the word it's matched with, the response)
-            #
-            # Let us work on the target words and use the following strategy
+            # First, we need to keep track of which target words
+            # have a difficulty score associated to them. We'll only
+            # be able to use those to calculate our correlation coefficient.
 
             if target in difficulty:
                 print(FOUND_CORRELATION.format(target), end="\n\n")
+                # Keep track of the word, its difficulty score and the mean
+                # similarity with the response word.
+                # Of course there can be more than one entry for a
+                # given target word.
                 tuple = (target, float(difficulty[target]), meanScore)
                 correlation.append(tuple)
 
-    covariance = cov([(i[1], i[2]) for i in correlation])
-    xVariance = var([i[1] for i in correlation])
-    yVariance = var([i[2] for i in correlation])
+    # Now that we know which target words can be used
+    # for the evaluation of our correlation coefficient
+    # we need to construct the variables' rankings.
+    xrank = rank([i[1] for i in correlation], False)
+    yrank = rank([i[2] for i in correlation], True)
 
-    spearman = covariance / math.sqrt(xVariance * yVariance)
+    covariance = cov(list(zip(xrank, yrank)))
+
+    spearman = covariance / math.sqrt(var(xrank) * var(yrank))
     print(CORRELATION.format(spearman))
 
-def var(values):
-    return cov([(i, i) for i in values])
+    # Might be interesting...
+    # plt.scatter(xrank, yrank)
+    # plt.show()
 
-def cov(pairs):
-    length = len(pairs)
+# Quick&dirty implementation of the fractional sorting
+# algo, Spearman works best with this...
+def rank(data, sorting = False):
+    ranking = []
+    occurrences = {}
 
-    xMean = mean([i[0] for i in pairs])
-    yMean = mean([i[1] for i in pairs])
+    for value in data:
+        if value in occurrences:
+            occurrences[value] += 1
+        else:
+            occurrences[value] = 1
 
-    sum = 0
-    for pair in pairs:
-        sum += (pair[0] - xMean) * (pair[1] - yMean)
+    unique = list(occurrences.keys())
+    unique.sort(reverse = sorting)
 
-    sum /= (length - 1)
-    return sum
+    for value in data:
+        position = 1
+        for rank in unique:
+            if rank != value:
+                position += occurrences[rank]
+            else:
+                break
 
-def mean(values):
-    sum = 0
-    for value in values:
-        sum += value
+        position += (occurrences[value] - 1) / 2
+        ranking.append(position)
 
-    return (sum / len(values))
+    return ranking
+
+def cov(data):
+    mux = mean([i[0] for i in data])
+    muy = mean([i[1] for i in data])
+
+    ret = sum([(i[0] - mux) * (i[1] - muy) for i in data]) / (len(data) - 1)
+    return ret
+
+def var(data):
+    return cov([(i, i) for i in data])
+
+def mean(data):
+    return sum(data) / len(data)
 
 def tupleize(file):
     output = []
