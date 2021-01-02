@@ -1,6 +1,6 @@
 import gensim.downloader as api
 import math
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 NOW_PROCESSING = "Now processing ({0}, {1})"
 FOUND_MATCH = "Found a match in MEN database for ({0}, {1})!"
@@ -38,7 +38,7 @@ def main():
             if len(match) > 0:
                 # If found normalize it...
                 print(FOUND_MATCH.format(target, response))
-                menScore = float(match[0][2]) / 100.0
+                menScore = float(match[0][2]) / 50.0
                 # ...find the vector distance from the two models...
                 distance = abs(menScore - wvScore)
                 print(MEN_DISTANCE.format(distance))
@@ -80,8 +80,8 @@ def main():
     print(CORRELATION.format(spearman))
 
     # Might be interesting...
-    # plt.scatter(xrank, yrank)
-    # plt.show()
+    plt.scatter(xrank, yrank)
+    plt.show()
 
 # Quick&dirty implementation of the fractional sorting
 # algo, Spearman works best with this...
