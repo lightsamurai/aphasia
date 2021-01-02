@@ -1,27 +1,24 @@
 def main():
-    scores = {}
+    scores = []
     max = 0
 
-    with open("../data/men.csv", "r") as men:
-        line = men.readline()
-        while line:
-            tokens = line.split(", ")[:-1]
-            for token in tokens:
-                difficulty = len(token)
-                # Keep track of the maximum difficulty for this dataset
-                if max < difficulty:
-                    max = difficulty
+    with open("english.csv", "r") as words:
+        word = words.readline()
+        while word:
+            word = word.rstrip()
+            difficulty = len(word)
+            # Keep track of the maximum difficulty for this dataset
+            if max < difficulty:
+                max = difficulty
 
-                scores[token] = difficulty / max
+            scores.append((word, difficulty))
+            word = words.readline();
 
-
-            line = men.readline();
+    print("Max score is: " + str(max))
 
     with open("../data/difficulty.csv", "w") as diff:
-        for tuple in list(scores.items()):
-            line = [str(i) for i in tuple]
-
-            diff.write(", ".join(line))
+        for tuple in scores:
+            diff.write(", ".join([tuple[0], str(tuple[1] / max)]))
             diff.write("\n")
 
 if __name__ == "__main__":

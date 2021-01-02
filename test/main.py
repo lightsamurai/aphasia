@@ -23,7 +23,6 @@ def main():
     # This will contain tuples with the target word, its difficulty
     # and the final score (relative to the response word)
     correlation = []
-
     # Then, get similarity estimates from our models
     with open("output.csv", "w") as output:
         for target, response in input:
@@ -32,10 +31,12 @@ def main():
 
             # If available, extract similarity estimate
             # from MAN as well...
-            match = [score for score in men if (target in score
-                                            and response in score)]
+            match = []
+            for i in men:
+                if target in i and response in i:
+                    match.append(i)
 
-            if len(match) > 0:
+            if len(match) == 1:
                 # If found normalize it...
                 print(FOUND_MATCH.format(target, response))
                 menScore = float(match[0][2]) / 50.0
@@ -58,7 +59,6 @@ def main():
             # First, we need to keep track of which target words
             # have a difficulty score associated to them. We'll only
             # be able to use those to calculate our correlation coefficient.
-
             if target in difficulty:
                 print(FOUND_CORRELATION.format(target), end="\n\n")
                 # Keep track of the word, its difficulty score and the mean
@@ -85,7 +85,7 @@ def main():
 
 # Quick&dirty implementation of the fractional sorting
 # algo, Spearman works best with this...
-def rank(data, sorting = False):
+def rank(data, sorting):
     ranking = []
     occurrences = {}
 
@@ -119,6 +119,7 @@ def cov(data):
     return ret
 
 def var(data):
+
     return cov([(i, i) for i in data])
 
 def mean(data):
