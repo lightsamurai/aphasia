@@ -5,15 +5,15 @@ broken, bottom
 word, money
 rain, run
 dog, guy
-to bark, biting
+bark, biting
 cat, god
 girl, guy
 tree, train
 ball, bald
 ball, barn
 ball, banks
-king's, cleans
-king's, kins
+king, cleans
+king, kins
 glass, grass
 woman, man
 somewhere, someone
@@ -25,7 +25,7 @@ school, cool
 girl, earl
 slipper, sipper
 lamp, lap
-umbrella, soccer ball
+umbrella, ball
 short, sort
 boy, boil
 woman, man
@@ -39,37 +39,37 @@ window, door
 umbrella, comb
 umbrella, bread
 umbrella, read
-to catch, kitchen 
+catch, kitchen 
 soccer, sock
 mother, daughter
 lamp, lights
-to give, gay
+give, gay
 rescue, like
 dog, door
-to bark, to talk
-to kick, to cook
-to show, to go
+bark, talk
+kick, cook
+show, go
 both, bow
 cat, hat
 dog, boy
 cat, girl
-to bark, to call
-to reach, to crawl
-there is, hairs
-to ride, to drive
+bark, call
+reach, crawl
+there, hairs
+ride, drive
 quite, white
 girl, boy
-grow, goer
+grow, goes
 page, bar
 umbrella, black
 naughty, nasty
-to walk, to speak
+walk, speak
 girl, woman
-to ride, to run
+ride, run
 cat, hat
 branch, window
 father, mother
-tree, to try
+tree, try
 tree, far
 dog, fog
 ladder, water
@@ -85,16 +85,15 @@ woman, man
 that, dat
 foot, pit
 slipper, pitcher
-put, he pits 
+put, pit
 sisters, brothers
-to elate, to delate
 boy, man
 hands, heads
-to cry, to try
+cry, try
 wheels, feels
 ladder, letter
 age, days
-to say, to see
+say, see
 foot, head
 woman, man
 put, foot
