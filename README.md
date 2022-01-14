@@ -1,4 +1,4 @@
-Aim of this work is to automatically rank the severeness of **anomic aphasia** by applying Word2Vec tasks to our corpus, manually collected from the **Aphasia Bank online database** (https://aphasia.talkbank.org/) from diagnostic protocols. 
+Aim of this work is to automatically rank the severeness of **anomic aphasia** production by applying Word2Vec tasks to our corpus, manually collected from the **Aphasia Bank online database** (https://aphasia.talkbank.org/) from diagnostic protocols. 
 
 We propose two ways to accomplish this task, one very simple and one more elaborated. 
 
